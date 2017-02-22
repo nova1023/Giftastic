@@ -7,11 +7,12 @@
 	//static gif with animated gif 
 	//the rating of each gif should appear below the gif (.append)
 
-var gamesArray = ["Contra", "Diabo 2", "Starcraft", "Tetris", "Halo", "Destiny", "Madden NFL", "Super Mario",
+var gamesArray = ["Contra", "Diabo 2", "Starcraft", "Tetris", "Halo", "Bomberman", "Madden NFL", "Super Mario",
 "Metroid", "Zelda", "Teenage Mutant Ninja Turtles", "Star Fox", "Pokemon", "Resident Evil", "Metal Gear Solid",
 "Final Fantasy", "Kirby", "Dark Souls", "Street Fighter", "Tekken"];
 
 function showGifs() {
+	// I don't really understand what this does
 	var searchGame = $(this).attr("data-name");
 	var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + searchGame + "&api_key=dc6zaTOxFJmzC&limit=10";
 
@@ -28,16 +29,34 @@ function showGifs() {
 			var ratingP = $("<p>").text("Rating: " + rating);
 			gifDiv.append(ratingP);
 
-			var gifURL = response.data[i].images.fixed_height_still.url;
-			var staticGif = $("<img>").attr("src", gifURL);
+			var staticURL = response.data[i].images.fixed_height_still.url;
+			var staticGif = $("<img>").attr("src", staticURL);
 			gifDiv.append(staticGif);
-
 
 			$("#game-gifs").append(gifDiv);
 		}
 	});
 }
 
+//click function to play and stop gifs
+$(document).on('click', '.image', function() {
+	$.ajax({
+		url: queryURL,
+		method: "GET"
+	}).done(function(response) {
+		var gifDiv = $("<div class='gifs'>");
+
+		for (var i = 0; i < 11; i++){
+			var images = $("<img>");
+		images.addClass("image");
+			var animatedURL = response.data[i].images.fixed_height.url;
+			var animatedGif = $("<img>").attr("src", animatedURL);
+			gifDiv.append(animatedGif);
+
+		$("#game-gifs").append(gifDiv);
+		}
+	});
+});
 
 //created buttons for each item in gamesArray
 function createButtons() {
