@@ -11,6 +11,7 @@ var gamesArray = ["Contra", "Diabo 2", "Starcraft", "Tetris", "Halo", "Bomberman
 "Metroid", "Zelda", "Teenage Mutant Ninja Turtles", "Star Fox", "Pokemon", "Resident Evil", "Metal Gear Solid",
 "Final Fantasy", "Kirby", "Dark Souls", "Street Fighter", "Tekken"];
 
+
 function showGifs() {
 	// I don't really understand what this does
 	var searchGame = $(this).attr("data-name");
@@ -23,7 +24,8 @@ function showGifs() {
 		var gifDiv = $("<div class='gifs'>");
 		$("#game-gifs").empty();
 
-		for (var i = 0; i < 11; i++){
+		for (var i = 0; i < response.data.length && i < 10; i++){
+			console.log(response);
 			var rating = response.data[i].rating;
 			// console.log(response.data[i].rating);
 			var ratingP = $("<p>").text("Rating: " + rating);
@@ -31,31 +33,29 @@ function showGifs() {
 
 			var staticURL = response.data[i].images.fixed_height_still.url;
 			var staticGif = $("<img>").attr("src", staticURL);
+			var animatedURL = response.data[i].images.fixed_height.url;
+			staticGif.attr("data-animated", animatedURL);
+			staticGif.attr("data-static", staticURL);
+			staticGif.attr("data", "still");
+			staticGif.addClass("image");
 			gifDiv.append(staticGif);
 
-			$("#game-gifs").append(gifDiv);
+			$("#game-gifs").append(gifDiv); 
 		}
 	});
 }
 
-//click function to play and stop gifs
-$(document).on('click', '.image', function() {
-	$.ajax({
-		url: queryURL,
-		method: "GET"
-	}).done(function(response) {
-		var gifDiv = $("<div class='gifs'>");
+// click function to play and stop gifs
 
-		for (var i = 0; i < 11; i++){
-			var images = $("<img>");
-		images.addClass("image");
-			var animatedURL = response.data[i].images.fixed_height.url;
-			var animatedGif = $("<img>").attr("src", animatedURL);
-			gifDiv.append(animatedGif);
+$(document).on("click", ".image", function() {
+	
+	console.log(this);
+	if($(this).attr('data') === 'still'){
+		$(this).attr('src', $(this).attr('data-animated'));
+		$(this).attr('data', 'animated');//need another else clause
+	}
+	
 
-		$("#game-gifs").append(gifDiv);
-		}
-	});
 });
 
 //created buttons for each item in gamesArray
@@ -86,6 +86,7 @@ createButtons();
 
 //if you click anything with a class of 'game', the showGifs function will run
 $(document).on("click", ".game", showGifs);
+
 //runs this function to show the initaial buttons
 createButtons();
 
