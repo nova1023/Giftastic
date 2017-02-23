@@ -1,21 +1,13 @@
-//function to convert array of games into buttons
-	//function to pull 10 static gifs with their ratings when a button is clicked
-	// response.data[i].images.downsized_still = static gif
-	// response.data[i].images.downsized = animated gif
-	//need to pull the static gif initially
-	//when user clicks a static gif, need to replace
-	//static gif with animated gif 
-	//the rating of each gif should appear below the gif (.append)
 
-var gamesArray = ["Contra", "Diabo 2", "Starcraft", "Tetris", "Halo", "Bomberman", "Madden NFL", "Super Mario",
-"Metroid", "Zelda", "Teenage Mutant Ninja Turtles", "Star Fox", "Pokemon", "Resident Evil", "Metal Gear Solid",
-"Final Fantasy", "Kirby", "Dark Souls", "Street Fighter", "Tekken"];
+
+var gamesArray = ["Contra", "Diabo 2", "Starcraft", "Tetris", "Halo", "Bomberman", "Madden NFL", "Super Mario Bros",
+"Metroid", "Zelda", "Teenage Mutant Ninja Turtles", "Star Fox 64", "Pokemon", "Resident Evil 5", "Metal Gear Solid",
+"Final Fantasy 7", "Kirby", "Dark Souls", "Street Fighter", "Tekken"];
 
 
 function showGifs() {
-	// I don't really understand what this does
 	var searchGame = $(this).attr("data-name");
-	var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + searchGame + "&api_key=dc6zaTOxFJmzC&limit=10";
+	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchGame + "&api_key=dc6zaTOxFJmzC&limit=10";
 
 	$.ajax({
 		url: queryURL,
@@ -25,10 +17,8 @@ function showGifs() {
 		$("#game-gifs").empty();
 
 		for (var i = 0; i < response.data.length && i < 10; i++){
-			console.log(response);
 			var rating = response.data[i].rating;
-			// console.log(response.data[i].rating);
-			var ratingP = $("<p>").text("Rating: " + rating);
+			var ratingP = $("<span>").text("Rating: " + rating);
 			gifDiv.append(ratingP);
 
 			var staticURL = response.data[i].images.fixed_height_still.url;
@@ -52,10 +42,12 @@ $(document).on("click", ".image", function() {
 	console.log(this);
 	if($(this).attr('data') === 'still'){
 		$(this).attr('src', $(this).attr('data-animated'));
-		$(this).attr('data', 'animated');//need another else clause
+		$(this).attr('data', 'animated');
 	}
-	
-
+	else {
+		$(this).attr('src', $(this).attr('data-static'));
+       	$(this).attr('data', 'still');
+	}
 });
 
 //created buttons for each item in gamesArray
@@ -89,6 +81,7 @@ $(document).on("click", ".game", showGifs);
 
 //runs this function to show the initaial buttons
 createButtons();
+
 
 
 
