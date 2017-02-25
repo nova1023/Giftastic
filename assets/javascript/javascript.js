@@ -13,13 +13,11 @@ function showGifs() {
 		url: queryURL,
 		method: "GET"
 	}).done(function(response) {
-		var gifDiv = $("<div class='gifs'>");
+		
 		$("#game-gifs").empty();
 
 		for (var i = 0; i < response.data.length && i < 10; i++){
-			var rating = response.data[i].rating;
-			var ratingP = $("<span>").text("Rating: " + rating);
-			gifDiv.append(ratingP);
+			var singleGifs = $("<div class='gifs'>");
 
 			var staticURL = response.data[i].images.fixed_height_still.url;
 			var staticGif = $("<img>").attr("src", staticURL);
@@ -28,9 +26,14 @@ function showGifs() {
 			staticGif.attr("data-static", staticURL);
 			staticGif.attr("data", "still");
 			staticGif.addClass("image");
-			gifDiv.append(staticGif);
+			singleGifs.append(staticGif);
 
-			$("#game-gifs").append(gifDiv); 
+			var rating = response.data[i].rating;
+			var ratingP = $("<span>").text("Rating: " + rating);
+			ratingP.addClass("ratings");
+			singleGifs.append(ratingP);
+
+			$("#game-gifs").append(singleGifs); 
 		}
 	});
 }

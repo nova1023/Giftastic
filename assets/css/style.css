@@ -2,4 +2,14 @@
 	width: 980px;
 }
 
+.gifs {
+	display: inline-block;
+}
 
+.gifs img {
+	display: block;
+}
+
+.gifs .ratings{
+	display: inline-block;
+}
