@@ -1,9 +1,20 @@
+
+
+body {
+	background-image: url(../images/squared_metal.png);
+}
+
+body, button, input {
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
 #game-gifs {
 	width: 980px;
 }
 
 .gifs {
 	display: inline-block;
+	margin-left: 20px;
 }
 
 .gifs img {
@@ -12,4 +23,39 @@
 
 .gifs .ratings{
 	display: inline-block;
+	margin-bottom: 20px;
+}
+
+button {
+	margin: 10px 0px 10px 10px;
+	background-color: lightblue;
+	border-radius: 5px;
+	padding: 10px;
+	font-size: 14px;
+	text-align: center;
+	box-shadow: 
+}
+
+label, input {
+	margin: 10px 0px 0px 10px;
+}
+
+#addGame {
+	background-color: lightblue;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+label {
+	font-size: 20px;
+}
+
+form {
+	float: right;
+	position: relative;
+	right: 2%;
+}
+
+button:hover, #addGame:hover {
+	box-shadow: 5px 5px 5px 0px #7b7be6;
 }
